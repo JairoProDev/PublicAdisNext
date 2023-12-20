@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cookie from 'cookie';
 import User from '@models/User';
-import dbConnect from '@/dbConnect';
+import dbConnect from '@/dbconnect';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     await dbConnect();
@@ -30,8 +30,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         await newUser.save();
 
         // Create JWT
-        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
+        const jwtSecret = process.env.JWT_SECRET;
+        if (!jwtSecret) {
+            throw new Error('JWT Secret is not defined.');
+        }
 
+        const token = jwt.sign({ id: newUser._id }, jwtSecret, { expiresIn: '7d' });
+       
         // Set cookie
         res.setHeader('Set-Cookie', cookie.serialize('token', token, {
             httpOnly: true,
