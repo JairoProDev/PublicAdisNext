@@ -1,4 +1,4 @@
-import { Schema, model, Document } from 'mongoose';
+import { Schema, model, Model, Document } from 'mongoose';
 
 interface IAd {
     title: string;
@@ -70,6 +70,13 @@ const adSchema = new Schema<AdDocument>({
     },
 });
 
-const Ad = model<AdDocument>('Ad', adSchema);
+// Check if the model is already compiled to avoid OverwriteModelError
 
+let Ad: Model<AdDocument, {}>;
+
+try {
+    Ad = model<AdDocument>('Ad');
+} catch (e) {
+    Ad = model<AdDocument>('Ad', adSchema);
+}
 export default Ad;
