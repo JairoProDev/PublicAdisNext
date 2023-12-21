@@ -3,7 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cookie from 'cookie';
 import User from '@models/User';
-import dbConnect from '@/dbconnect';
+import dbConnect from '@/lib/dbConnect';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     await dbConnect();
