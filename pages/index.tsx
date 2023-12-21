@@ -10,15 +10,36 @@ interface Ad {
 
 const Home: React.FC = () => {
     const [ads, setAds] = useState<Ad[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchAds = async () => {
-            const res = await axios.get<Ad[]>('/api/ads');
-            setAds(res.data);
+            setLoading(true);
+            try {
+                const res = await axios.get<Ad[]>('/api/ads');
+                setAds(res.data);
+            } catch (err) {
+                if (err instanceof Error) {
+                    setError(err.message);
+                } else {
+                    setError('An error occurred while fetching ads');
+                }
+            } finally {
+                setLoading(false);
+            }
         };
 
         fetchAds();
     }, []);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (error) {
+        return <div>Error: {error}</div>;
+    }
 
     return (
         <div>
