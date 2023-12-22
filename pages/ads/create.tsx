@@ -5,10 +5,14 @@ import { useRouter } from 'next/router';
 interface Ad {
     title: string;
     description: string;
+    contactInfo: string;
+    price: number;
+    category: string;
+    location: string;
 }
 
 const CreateAd: React.FC = () => {
-    const [ad, setAd] = useState<Ad>({ title: '', description: '' });
+    const [ad, setAd] = useState<Ad>({ title: '', description: '', contactInfo: '', price: 0, category: '', location: '' });
     const router = useRouter();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,6 +34,22 @@ const CreateAd: React.FC = () => {
             <label>
                 Description:
                 <input type="text" name="description" value={ad.description} onChange={handleChange} required />
+            </label>
+            <label>
+                Contact Info:
+                <input type="text" name="contactInfo" value={ad.contactInfo} onChange={handleChange} required />
+            </label>
+            <label>
+                Price:
+                <input type="number" name="price" value={ad.price} onChange={handleChange} />
+            </label>
+            <label>
+                Category:
+                <input type="text" name="category" value={ad.category} onChange={handleChange} />
+            </label>
+            <label>
+                Location:
+                <input type="text" name="location" value={ad.location} onChange={handleChange}  />
             </label>
             <button type="submit">Create Ad</button>
         </form>
