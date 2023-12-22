@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import Ad from '../../../models/Ad';
-import dbConnect from '../../../lib/dbConnect';
+import Ad from '@/models/Ad';
+import dbConnect from '@/lib/dbConnect';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     await dbConnect();
@@ -16,6 +16,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         // Create new ad
         const newAd = new Ad({ title, description, imageUrl, userId, price, category, location, contactInfo });
         await newAd.save();
+
+        console.log('Ad created successfully')
 
         res.status(201).json(newAd);
     } else {
