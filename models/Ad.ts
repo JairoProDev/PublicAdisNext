@@ -33,24 +33,24 @@ const adSchema = new Schema<AdDocument>({
     },
     imageUrl: {
         type: String,
-        required: true,
+        required: false,
     },
     userId: {
         type: Schema.Types.ObjectId as any,
         ref: 'User',
-        required: true,
+        required: false,
     },
     price: {
         type: Number,
-        required: true,
+        required: false,
     },
     category: {
         type: String,
-        required: true,
+        required: false,
     },
     location: {
         type: String,
-        required: true,
+        required: false,
     },
     contactInfo: {
         type: String,
